@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useId } from 'react';
 
 export default function dbInteraction() {
   const apiUrl = 'https://7eb8defe9f25.ngrok-free.app/alarms';
@@ -12,16 +13,16 @@ export default function dbInteraction() {
   };
 
   async function dbInsertAlarm(
-    time,
-    event_id,
-    label = 'Not Set',
-    enabled = true,
-  ) {
-    const phone_num = await getDetails(); // ✅ await missing earlier
-
-    if (!phone_num) {
-      throw new Error('User not logged in');
-    }
+      time,
+      event_id,
+      label = 'Not Set',
+      enabled = true,
+    ) {
+        
+        const phone_num = await getDetails(); // ✅ await missing earlier
+        if (!phone_num) {
+            throw new Error('User not logged in');
+        }
 
     const data = JSON.stringify({
       phone_num,
@@ -47,6 +48,33 @@ export default function dbInteraction() {
 
     return await res.json();
   }
+async function dbUpdateAlarm(alarm) {
+  const userId = await getDetails();
 
-  return { dbInsertAlarm };
+  const res = await fetch(`${apiUrl}/${alarm.notification.id}?phone_num=${userId}`, {
+    method: 'PUT', // or POST (backend epdi expect pannudho)
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        time:alarm.trigger.timestamp,
+      enabled: !alarm.enabled,
+      event_id:alarm.notification.id,
+      label:"Not Defined"
+    
+    }),
+  });
+  console.log(res);
+}
+
+async function getAlarms() {
+  const userId = await getDetails();
+
+  const res = await fetch(`${apiUrl}?phone_num=${userId}`);
+  const data = await res.json();
+
+  console.log(data);
+}
+
+  return { dbInsertAlarm ,getAlarms,dbUpdateAlarm};
 }
