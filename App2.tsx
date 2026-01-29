@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {Button, StyleSheet, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import Datetime from './components/dateTime';
-import Alarmbuttons from './components/alarmButtons';
+import Alarmbuttons from './components/AlarmButtons';
 
 export default function App() {
   

@@ -1,5 +1,5 @@
 import { StyleSheet,View } from "react-native";
-import Alarmbuttons from "../../components/alarmButtons";
+import AlarmButtons from "../../components/AlarmButtons";
 import Datetime from "../../components/dateTime";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -11,7 +11,7 @@ export default function HomeScreen(){
         <SafeAreaView style={styles.safe}>
             <View style={styles.container}>
             <Datetime></Datetime>
-            <Alarmbuttons></Alarmbuttons>
+            <AlarmButtons></AlarmButtons>
             </View>
         </SafeAreaView>
     );

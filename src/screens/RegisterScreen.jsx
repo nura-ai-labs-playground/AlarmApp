@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
-const BASE_URL = "https://7eb8defe9f25.ngrok-free.app";
+const BASE_URL = "http://65.2.139.35";
 
 export default function Register() {
   const {setIsLoggedIn} = useContext(AuthContext)

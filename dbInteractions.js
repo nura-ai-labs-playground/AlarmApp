@@ -1,8 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useId } from 'react';
+
 
 export default function dbInteraction() {
-  const apiUrl = 'https://7eb8defe9f25.ngrok-free.app/alarms';
+  const apiUrl = 'http://65.2.139.35/alarms';
 
   const getDetails = async () => {
     const details = await AsyncStorage.getItem('userDetails');
@@ -51,15 +51,15 @@ export default function dbInteraction() {
 async function dbUpdateAlarm(alarm) {
   const userId = await getDetails();
 
-  const res = await fetch(`${apiUrl}/${alarm.notification.id}?phone_num=${userId}`, {
+  const res = await fetch(`${apiUrl}/${alarm.event_id}?phone_num=${userId}`, {
     method: 'PUT', // or POST (backend epdi expect pannudho)
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-        time:alarm.trigger.timestamp,
+      time:alarm.time,
       enabled: !alarm.enabled,
-      event_id:alarm.notification.id,
+      event_id:alarm.event_id,
       label:"Not Defined"
     
     }),
@@ -69,12 +69,25 @@ async function dbUpdateAlarm(alarm) {
 
 async function getAlarms() {
   const userId = await getDetails();
-
   const res = await fetch(`${apiUrl}?phone_num=${userId}`);
   const data = await res.json();
+  return data;
 
-  console.log(data);
 }
 
-  return { dbInsertAlarm ,getAlarms,dbUpdateAlarm};
+
+async function deleteAlarm(event_id) {
+    const userId = await getDetails();
+  const res = await fetch(`${apiUrl}/${event_id}?phone_num=${userId}`,{
+    method:"delete"
+  });
+  if (!res.ok) {
+    console.log(res);
+    throw new Error("Database error");
+  }
+  return res.message;
+
+  
+}
+  return { dbInsertAlarm ,getAlarms,dbUpdateAlarm,deleteAlarm};
 }

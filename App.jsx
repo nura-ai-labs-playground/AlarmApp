@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { View,Text,StyleSheet } from "react-native";
-import Datetime from "./components/dateTime";
-import Alarmbuttons from "./components/alarmButtons";
 import AppNavigator from './src/navigation/AppNavigator';
+import notifee, { EventType } from '@notifee/react-native';
 
  export default function App() {
+  notifee.onBackgroundEvent(async ({ type, detail }) => {
+  if (type === EventType.PRESS) {
+    console.log('Notification clicked - app opening');
+  }
+});
   return(
     
       <AppNavigator />

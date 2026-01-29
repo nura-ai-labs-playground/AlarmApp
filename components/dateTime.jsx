@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, StyleSheet, Platform, ScrollView} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Alarmbuttons from './alarmButtons';
+import AlarmButtons from './AlarmButtons';
 
 export default function Datetime() {
   const [date, setDate] = useState(new Date());
@@ -97,7 +97,7 @@ export default function Datetime() {
           </View>
         </View>
 
-        <Alarmbuttons selectedDate={date} />
+        <AlarmButtons selectedDate={date} />
       </ScrollView>
     </SafeAreaView>
   );
